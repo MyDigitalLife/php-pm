@@ -61,6 +61,9 @@ class ProcessManager
      */
     protected $appenv;
 
+    /** @var boolean */
+    protected $appDebug;
+
     /**
      * @var string
      */
@@ -128,6 +131,25 @@ class ProcessManager
     public function setAppEnv($appenv)
     {
         $this->appenv = $appenv;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isAppDebug()
+    {
+        return $this->appDebug;
+    }
+
+    /**
+     * @param boolean $appDebug
+     *
+     * @return ProcessManager
+     */
+    public function setAppDebug($appDebug)
+    {
+        $this->appDebug = $appDebug;
+        return $this;
     }
 
     /**
@@ -308,7 +330,7 @@ class ProcessManager
         $pid = pcntl_fork();
         if (!$pid) {
             //we're in the slave now
-            new ProcessSlave($this->getBridge(), $this->appBootstrap, $this->appenv);
+            new ProcessSlave($this->getBridge(), $this->appBootstrap, $this->appenv, $this->appDebug);
             exit;
         }
     }

@@ -35,10 +35,10 @@ class ProcessSlave
      */
     protected $appenv;
 
-    public function __construct($bridgeName = null, $appBootstrap, $appenv)
+    public function __construct($bridgeName = null, $appBootstrap, $appenv, $appDebug)
     {
         $this->bridgeName = $bridgeName;
-        $this->bootstrap($appBootstrap, $appenv);
+        $this->bootstrap($appBootstrap, $appenv, $appDebug);
         $this->connectToMaster();
         $this->loop->run();
     }
@@ -68,10 +68,10 @@ class ProcessSlave
         return $this->bridge;
     }
 
-    protected function bootstrap($appBootstrap, $appenv)
+    protected function bootstrap($appBootstrap, $appenv, $appDebug)
     {
         if ($bridge = $this->getBridge()) {
-            $bridge->bootstrap($appBootstrap, $appenv);
+            $bridge->bootstrap($appBootstrap, $appenv, $appDebug);
         }
     }
 

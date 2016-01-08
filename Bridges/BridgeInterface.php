@@ -11,7 +11,7 @@ interface BridgeInterface
 	 * @param string|null $appBootstrap The environment your application will use to bootstrap (if any)
 	 * @see http://stackphp.com
 	 */
-    public function bootstrap($appBootstrap, $appenv);
+    public function bootstrap($appBootstrap, $appenv, $appDebug);
 
 
 	/**

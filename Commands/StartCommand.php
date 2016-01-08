@@ -28,6 +28,7 @@ class StartCommand extends Command
         $port          = (int) $this->defaultOrConfig($config, 'port', 8080);
         $workers       = (int) $this->defaultOrConfig($config, 'workers', 8);
         $appenv        = $this->defaultOrConfig($config, 'app-env', 'dev');
+        $appDebug      = $this->defaultOrConfig($config, 'app-debug', false);
         $appBootstrap  = $this->defaultOrConfig($config, 'bootstrap', 'PHPPM\Bootstraps\Symfony');
 
         $this
@@ -38,6 +39,7 @@ class StartCommand extends Command
             ->addOption('port', null, InputOption::VALUE_OPTIONAL, 'Load-Balancer port. Default is 8080', $port)
             ->addOption('workers', null, InputOption::VALUE_OPTIONAL, 'Worker count. Default is 8. Should be minimum equal to the number of CPU cores.', $workers)
             ->addOption('app-env', null, InputOption::VALUE_OPTIONAL, 'The environment that your application will use to bootstrap (if any)', $appenv)
+            ->addOption('app-debug', null, InputOption::VALUE_NONE, 'Run the application in debug')
             ->addOption('bootstrap', null, InputOption::VALUE_OPTIONAL, 'The class that will be used to bootstrap your application', $appBootstrap)
             ->setDescription('Starts the server')
         ;
@@ -54,12 +56,14 @@ class StartCommand extends Command
         $port          = (int) $input->getOption('port');
         $workers       = (int) $input->getOption('workers');
         $appenv        = $input->getOption('app-env');
+        $appDebug      = $input->getOption('app-debug');
         $appBootstrap  = $input->getOption('bootstrap');
 
         $handler = new ProcessManager($port, $host, $workers);
 
         $handler->setBridge($bridge);
         $handler->setAppEnv($appenv);
+        $handler->setAppDebug($appDebug);
         $handler->setAppBootstrap($appBootstrap);
 
         $handler->run();
